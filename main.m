@@ -11,10 +11,16 @@ parfor i=1:2
 end
 
 %}
+clc;
+clear all;
+close all;
+
 global pathX;
 global pathY;
-global imageToRead;
-global shownImage;
-global labels;
-imageToRead = 'images/planes2.jpg';
+global imageFile;
+global image;
+global mask;
+global gradients;
+global figMask;
+imageFile = 'images/soda.jpg';
 sketch 'init'

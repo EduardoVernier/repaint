@@ -5,8 +5,6 @@ function [] =  sketch(cmd)
     global image;
     global mask;
     global gradients;
-    global figMask;
-    
 if nargin == 0
     cmd = 'init';
 end
@@ -17,13 +15,12 @@ case 'init'
     fig = figure('DoubleBuffer','on','back','off');
     info.ax = axes('XLim',[0 1],'YLim',[0 1]);
     image = imread(imageFile);
-    if ndims(image) > 2
-        image = rgb2gray(image);
-    end
     [gradients, ~] = imgradient(image, 'prewitt');
     % Get the max gradient magnitude.
     gradients = gradients ./ max(max(gradients), [], 2);
-
+    if ndims(image) > 2
+        image = rgb2gray(image);
+    end
     
     imshow(image);
     figMask = figure;
@@ -65,9 +62,8 @@ case 'up'
     info = get(fig, 'UserData');
     pathX = info.x;
     pathY = info.y;
-    SpreadLine(uint32([pathY pathX]), 0.15, 110);
-    set(0,'CurrentFigure',figMask);
-    imshow(mask);
+    SpreadLine(uint32([pathY pathX]), 0.15, 200);
+    
     %figure, imshowpair(image, mask, 'montage');
     % the labels have been generated, now to the coloring!
     %{

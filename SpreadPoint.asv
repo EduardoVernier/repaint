@@ -1,23 +1,24 @@
-function [] = SpreadPoint(coord, threshold, recursionDepth)
+function [] = SpreadPoint(coord, threshold)
     global mask;
     global gradients;
     global image;
-    if (recursionDepth == 0 || mask(coord(1), coord(2)) ~= 0)
+    if (mask(coord(1), coord(2)) ~= 0)
         return;
     end
     mask(coord(1), coord(2)) = 1;
     [rows, cols] = size(mask);
     [n, k] = Neighbors(coord, rows, cols);
-    for i=1:k
+    for i=1:
         neigh = n(i,:);
         if (mask(neigh(1), neigh(2)) ~= 0) 
-            continue;
-        end
+            return. end
         grad = gradients(neigh(1), neigh(2));
         colorDiff = double(abs(image(neigh(1), neigh(2)) - image(coord(1), coord(2)))) / 255.0;
-        cost = grad * 0.800 + colorDiff * 0.500;
+        cost = grad * 0.5 + colorDiff * 0.5;
         if (cost <= threshold)
-            SpreadPoint(neigh, threshold, recursionDepth-1);
+            SpreadPoint(neigh, threshold);
+        else
+            mask(neigh(1), neigh(2)) = -1;
         end
     end
 end
