@@ -15,5 +15,6 @@ global pathX;
 global pathY;
 global imageToRead;
 global shownImage;
-
+global labels;
+imageToRead = 'images/planes2.jpg';
 sketch 'init'

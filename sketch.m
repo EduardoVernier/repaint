@@ -3,6 +3,7 @@ function [] =  sketch(cmd)
     global pathY;
     global imageToRead;
     global shownImage;
+    global labels;
 if nargin == 0
     cmd = 'init';
 end
@@ -19,7 +20,7 @@ case 'init'
     set(fig,'UserData',info,...
             'WindowButtonDownFcn',[mfilename,' down'])
     pathX = []; pathY = [];
-    
+    labels = zeros(size(shownImage,1), size(shownImage,2));
 case 'down'
     myname = mfilename;
     fig = gcbf;
@@ -50,7 +51,8 @@ case 'up'
     pathX = info.x;
     pathY = info.y;
     % the labels have been generated, now to the coloring!
-    labels = SpreadLine([pathX pathY], 200, hex2dec('FF0000'), shownImage);
+    labels = SpreadLine([pathY pathX], 1000, hex2dec('FF0000'), shownImage, labels);
+    figure, imshow(labels);
     disp 'Done!'
 %    info = get(fig, 'UserData');
 %    [info.x, info.y]
