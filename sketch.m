@@ -7,14 +7,16 @@ function [] =  sketch(cmd)
     global gradients;
     global figMask;
     global color;
-    
+    global sensitivity;
 if nargin == 0
     cmd = 'init';
 end
  
 switch cmd
 case 'init'
-    
+    rect = get(0,'ScreenSize');
+    rect(3) = rect(3)/2;
+
     fig = figure('DoubleBuffer','on','back','off');
     info.ax = axes('XLim',[0 1],'YLim',[0 1]);
     image = imread(imageFile);
@@ -24,11 +26,18 @@ case 'init'
     [gradients, ~] = imgradient(image, 'prewitt');
     % Get the max gradient magnitude.
     gradients = gradients ./ max(max(gradients), [], 2);
-
     
+    uicontrol('Style', 'slider',...
+        'Min',1,'Max',255,'Value',30,...
+        'Position', [100 80 220 20],...
+        'Callback', @sliderCallback);
+
+  
     imshow(image);
-    figMask = figure;
-    imshow(mask);
+
+    set(fig,'OuterPosition',rect);
+    %figMask = figure;
+    %imshow(mask);
     
     info.drawing = [];
     info.x = [];
@@ -68,10 +77,10 @@ case 'up'
     info = get(fig, 'UserData');
     pathX = info.x;
     pathY = info.y;
-    SpreadLine(uint32([pathY pathX]), 0.10, 80);
+    SpreadLine(uint32([pathY pathX]), sensitivity, 80);
     blurred = FilterMask(mask);
-    set(0,'CurrentFigure',figMask);
-    imshow(blurred);
+    %set(0,'CurrentFigure',figMask);
+    %imshow(blurred);
     c = color.*255;
     
     redFinal = ...
@@ -84,7 +93,16 @@ case 'up'
     final(:,:,1) = redFinal;
     final(:,:,2) = greenFinal;
     final(:,:,3) = blueFinal;
-    figure, imshow(final);
+    
+    figFinal = figure('DoubleBuffer','on','back','off');
+    rect = get(0,'ScreenSize');
+    rect(3) = rect(3)/2;
+    rect(1) = rect(3);
+    imshow(final);
+    set(figFinal,'OuterPosition',rect);
+    set(0,'CurrentFigure',fig)
+
+    
     %figure, imshowpair(image, mask, 'montage');
     % the labels have been generated, now to the coloring!
     %{
