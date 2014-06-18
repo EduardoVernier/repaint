@@ -1,3 +1,0 @@
- function sliderCallback(hObject, evt)
-        sensitivity =  get(hObject, 'Value') );
-    end

@@ -8,6 +8,8 @@ function [] =  sketch(cmd)
     global figMask;
     global color;
     global sensitivity;
+    global partialImage;
+    global labels;
 if nargin == 0
     cmd = 'init';
 end
@@ -23,6 +25,9 @@ case 'init'
     if ndims(image) > 2
         image = rgb2gray(image);
     end
+    partialImage(:,:,1) = image;
+    partialImage(:,:,2) = image;
+    partialImage(:,:,3) = image;
     [gradients, ~] = imgradient(image, 'prewitt');
     % Get the max gradient magnitude.
     gradients = gradients ./ max(max(gradients), [], 2);
@@ -51,6 +56,7 @@ case 'init'
             'WindowButtonDownFcn',[mfilename,' down'])
     pathX = []; pathY = [];
     mask = zeros(size(image,1), size(image,2));
+    labels = zeros(size(image, 1), size(image, 2));
 case 'down'
     myname = mfilename;
     fig = gcbf;
@@ -86,21 +92,21 @@ case 'up'
     %imshow(blurred);
     c = color.*255;
     redFinal = ...
-        uint8(1 - blurred) .* uint8(image) + ... 
+        uint8(1 - blurred) .* uint8(partialImage(:,:,1)) + ... 
         uint8(blurred .* (c(1) * (double(image) ./ 255.0)));
     greenFinal = ...
-        uint8(1 - blurred) .* uint8(image) + uint8(blurred .* (c(2) * (double(image) ./ 255.0)));
+        uint8(1 - blurred) .* uint8(partialImage(:,:,2)) + uint8(blurred .* (c(2) * (double(image) ./ 255.0)));
     blueFinal = ...
-        uint8(1 - blurred) .* uint8(image) + uint8(blurred .* (c(3) * (double(image) ./ 255.0)));
+        uint8(1 - blurred) .* uint8(partialImage(:,:,3)) + uint8(blurred .* (c(3) * (double(image) ./ 255.0)));
     final(:,:,1) = redFinal;
     final(:,:,2) = greenFinal;
     final(:,:,3) = blueFinal;
     
-
+    partialImage(:,:,:) = final(:,:,:);
     imshow(final);
     set(0,'CurrentFigure',fig)
 
-    
+    mask = zeros(size(image));
     %figure, imshowpair(image, mask, 'montage');
     % the labels have been generated, now to the coloring!
     %{
