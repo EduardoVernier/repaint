@@ -5,9 +5,5 @@ function keyPress(~, eventDat)
     
     if (key == 'c')
         color = uisetcolor;
-    else
-        if (key == 's')
-            % call the sensibility slider
-        end
     end
 end
