@@ -13,5 +13,9 @@ global color;
 global sensitivity;
 sensitivity = 0.2;
 color = [0 0 0];
-imageFile = 'coins.png';
-sketch 'init'
+[FileName,PathName] = uigetfile('*','Select the M-file')
+file = strcat(PathName, FileName)
+imageFile = file;
+if (file ~= 0)
+    sketch 'init'
+end

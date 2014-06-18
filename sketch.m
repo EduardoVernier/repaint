@@ -34,10 +34,13 @@ case 'init'
 
   
     imshow(image);
-
     set(fig,'OuterPosition',rect);
+
+
+
     %figMask = figure;
     %imshow(mask);
+    rect(1) = rect(3);
     
     info.drawing = [];
     info.x = [];
@@ -77,7 +80,7 @@ case 'up'
     info = get(fig, 'UserData');
     pathX = info.x;
     pathY = info.y;
-    SpreadLine(uint32([pathY pathX]), sensitivity, 80);
+    SpreadLine(uint32([pathY pathX]), sensitivity, 300);
     blurred = FilterMask(mask);
     %set(0,'CurrentFigure',figMask);
     %imshow(blurred);
@@ -93,12 +96,8 @@ case 'up'
     final(:,:,2) = greenFinal;
     final(:,:,3) = blueFinal;
     
-    figFinal = figure('DoubleBuffer','on','back','off');
-    rect = get(0,'ScreenSize');
-    rect(3) = rect(3)/2;
-    rect(1) = rect(3);
+
     imshow(final);
-    set(figFinal,'OuterPosition',rect);
     set(0,'CurrentFigure',fig)
 
     
