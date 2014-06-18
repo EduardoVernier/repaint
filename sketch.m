@@ -68,19 +68,18 @@ case 'up'
     info = get(fig, 'UserData');
     pathX = info.x;
     pathY = info.y;
-    SpreadLine(uint32([pathY pathX]), 0.10, 80);
+    SpreadLine(uint32([pathY pathX]), 0.25, 90);
     blurred = FilterMask(mask);
     set(0,'CurrentFigure',figMask);
     imshow(blurred);
     c = color.*255;
-    
     redFinal = ...
-        uint8(floor(1 - blurred)) .* uint8(image) + ... 
+        uint8(1 - blurred) .* uint8(image) + ... 
         uint8(blurred .* (c(1) * (double(image) ./ 255.0)));
     greenFinal = ...
-        uint8(floor(1 - blurred)) .* uint8(image) + uint8(blurred .* (c(2) * (double(image) ./ 255.0)));
+        uint8(1 - blurred) .* uint8(image) + uint8(blurred .* (c(2) * (double(image) ./ 255.0)));
     blueFinal = ...
-        uint8(floor(1 - blurred)) .* uint8(image) + uint8(blurred .* (c(3) * (double(image) ./ 255.0)));
+        uint8(1 - blurred) .* uint8(image) + uint8(blurred .* (c(3) * (double(image) ./ 255.0)));
     final(:,:,1) = redFinal;
     final(:,:,2) = greenFinal;
     final(:,:,3) = blueFinal;
