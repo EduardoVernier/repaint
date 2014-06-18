@@ -65,9 +65,21 @@ case 'up'
     info = get(fig, 'UserData');
     pathX = info.x;
     pathY = info.y;
-    SpreadLine(uint32([pathY pathX]), 0.15, 110);
+    SpreadLine(uint32([pathY pathX]), 0.10, 80);
+    blurred = FilterMask(mask);
     set(0,'CurrentFigure',figMask);
-    imshow(mask);
+    imshow(blurred);
+    redFinal = ...
+        uint8(floor(1 - blurred)) .* uint8(image) + ... 
+        uint8(blurred .* (255.0 * (double(image) ./ 255.0)));
+    greenFinal = ...
+        uint8(floor(1 - blurred)) .* uint8(image) + uint8(blurred .* (255.0 * (double(image) ./ 255.0)));
+    blueFinal = ...
+        uint8(floor(1 - blurred)) .* uint8(image) + uint8(blurred .* (0.0 * (double(image) ./ 255.0)));
+    final(:,:,1) = redFinal;
+    final(:,:,2) = greenFinal;
+    final(:,:,3) = blueFinal;
+    figure, imshow(final);
     %figure, imshowpair(image, mask, 'montage');
     % the labels have been generated, now to the coloring!
     %{

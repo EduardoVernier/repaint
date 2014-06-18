@@ -1,9 +1,8 @@
-function [ output_args ] = FilterMask( input_args )
+function [ blurred_mask ] = FilterMask( input_mask )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
- h = fspecial('gaussian', 3, 0.5);
-mFiltered = imfilter(mask, h);
-imshow(mFiltered);
+    h = fspecial('gaussian', 3, 0.5);
+    blurred_mask = imfilter(input_mask, h);
 end
 

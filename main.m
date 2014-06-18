@@ -22,5 +22,5 @@ global image;
 global mask;
 global gradients;
 global figMask;
-imageFile = 'images/soda.jpg';
+imageFile = 'images/planes2.jpg';
 sketch 'init'

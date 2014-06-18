@@ -2,11 +2,15 @@ function [] = SpreadPoint(coord, threshold, recursionDepth)
     global mask;
     global gradients;
     global image;
+    [rows, cols] = size(mask);
+    try
     if (recursionDepth == 0 || mask(coord(1), coord(2)) ~= 0)
         return;
     end
+    catch
+        return;
+    end
     mask(coord(1), coord(2)) = 1;
-    [rows, cols] = size(mask);
     [n, k] = Neighbors(coord, rows, cols);
     for i=1:k
         neigh = n(i,:);
