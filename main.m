@@ -13,8 +13,8 @@ global color;
 global sensitivity;
 sensitivity = 0.2;
 color = [0 0 0];
-[FileName,PathName] = uigetfile('*','Select the M-file')
-file = strcat(PathName, FileName)
+[FileName,PathName] = uigetfile('*','Select the image');
+file = strcat(PathName, FileName);
 imageFile = file;
 if (file ~= 0)
     sketch 'init'

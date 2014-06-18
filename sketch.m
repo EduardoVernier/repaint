@@ -80,7 +80,7 @@ case 'up'
     info = get(fig, 'UserData');
     pathX = info.x;
     pathY = info.y;
-    SpreadLine(uint32([pathY pathX]), sensitivity, 300);
+    SpreadLine(uint32([pathY pathX]), sensitivity, 100);
     blurred = FilterMask(mask);
     %set(0,'CurrentFigure',figMask);
     %imshow(blurred);
