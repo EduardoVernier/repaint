@@ -87,7 +87,8 @@ case 'up'
     pathX = info.x;
     pathY = info.y;
     SpreadLine(uint32([pathY pathX]), sensitivity, 100);
-    blurred = FilterMask(mask);
+    %blurred = FilterMask(mask);
+    blurred = mask;
     %set(0,'CurrentFigure',figMask);
     %imshow(blurred);
     c = color.*255;
